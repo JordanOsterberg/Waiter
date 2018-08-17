@@ -24,4 +24,28 @@ This will yield the following result in the console:
 ```
 Be advised that your data may become out of sync, or un-sorted when performing async operations (e.g talking to a MySQL or Mongo database). Always sync/sort your data once Waiter has finished your tasks.
 
+A more concrete and real world example of using Waiter in production against a MySQl database could look like this:
+
+```javascript
+database.query({
+    sql: "SELECT * FROM products WHERE seller = 'Jordan Osterberg'"
+}, function(error, results) {
+    // Error handling
+
+    let products = [];
+
+    new Waiter((data, completion) => {
+        database.query({
+            sql: "SELECT * FROM productMetadata WHERE productId = ?",
+            values: [data.id]
+        }, function(error, results) {
+            products.insert({name: results.name, price: results.price});
+            completion();
+        })
+    }).execute(results).then(() => {
+        // Use the products array
+    });
+})
+```
+
 Copyright © 2018 Jordan Osterberg. All rights reserved. Licensed under the MIT license.
