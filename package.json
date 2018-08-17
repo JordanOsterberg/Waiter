@@ -1,0 +1,7 @@
+{
+  "name": "waiter",
+  "author": "Jordan Osterberg",
+  "description": "Waiter is a tool to perform common data processing operations on an array of data.",
+  "version": "1.0.0",
+  "private": false
+}
